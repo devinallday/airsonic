@@ -67,6 +67,13 @@ public class DatabaseConfiguration {
         basicDataSource.setUrl(url);
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
+        // Cloud/database-hostile environments drop idle connections; validate
+        // before lending so a pooled dead socket can't reach the DAO layer.
+        basicDataSource.setTestOnBorrow(true);
+        basicDataSource.setValidationQuery("SELECT 1");
+        basicDataSource.setValidationQueryTimeout(5);
+        basicDataSource.setMinEvictableIdleTimeMillis(60000);
+        basicDataSource.setTimeBetweenEvictionRunsMillis(30000);
         return basicDataSource;
     }
 
