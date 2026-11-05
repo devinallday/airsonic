@@ -31,7 +31,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -642,9 +641,9 @@ public class MediaFileDao extends AbstractDao {
         return query(
                 "SELECT " + prefix(QUERY_COLUMNS, "media_file") + " FROM media_file " +
                 "WHERE media_file.path != media_file.folder " +
-                "AND media_file.path NOT LIKE concat(media_file.folder, concat(?, '%')) " +
+                "AND media_file.path NOT LIKE concat(media_file.folder, '/%') " +
                 "ORDER BY media_file.id LIMIT ?",
-                rowMapper, File.separator, count);
+                rowMapper, count);
     }
 
     /**
