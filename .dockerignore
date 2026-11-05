@@ -1,0 +1,7 @@
+.git
+**/target/**
+!airsonic-main/target/airsonic.war
+repo
+contrib
+integration-test
+*.md

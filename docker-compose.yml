@@ -1,0 +1,29 @@
+version: "3.8"
+
+# Demo-grade compose file. Credentials below are the exercise's shared dev
+# credentials — in production these come from Key Vault / container secrets.
+services:
+  airsonic:
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      DatabaseConfigType: embed
+      DatabaseConfigEmbedDriver: com.mysql.cj.jdbc.Driver
+      DatabaseConfigEmbedUrl: >-
+        jdbc:mysql://airsonic-db.mysql.database.azure.com:3306/airsonic
+        ?useSSL=true&requireSSL=true&serverTimezone=UTC
+        &allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
+        &sessionVariables=sql_generate_invisible_primary_key%3DOFF
+      DatabaseConfigEmbedUsername: airsonic
+      DatabaseConfigEmbedPassword: Devin2024!
+      DatabaseMysqlMaxlength: "191"
+      DatabaseUsertableQuote: "`"
+      JVM_HEAP: 512m
+    volumes:
+      - airsonic-data:/airsonic/data
+      # - /path/to/music:/airsonic/music:ro
+    restart: unless-stopped
+
+volumes:
+  airsonic-data:
